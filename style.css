@@ -1,3 +1,4 @@
+/* creates a table style */
 .table {
     position: absolute;
     border: 5px solid rgb(121, 89, 77);
@@ -8,10 +9,12 @@
     border-radius: 4px;
 
 }
-#hide{
+
+#hide {
     display: none;
 }
 
+/* styled container for the table and for the bg */
 .container {
     position: fixed;
     display: flex;
@@ -22,27 +25,33 @@
     align-items: center;
     justify-content: center;
     background-image: url('https://www.ubuy.vn/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvNjFGOFh3cEZaQ0wuX0FDX1NMMTAwMF8uanBn.jpg');
-    background-size:  contain;
+    background-size: contain;
 }
 
-.head{
+/* letters on the top of the board style */
+.head {
     height: 30px;
     width: 10px;
 }
 
-.sides{
+/* numbers from the sides */
+.sides {
     width: 30px;
 }
 
-th{
+/* numbers and letters style */
+th {
     background: rgb(121, 89, 77);
     color: white;
-    
+
 }
+
+/* the black squares */
 .black {
     background: rgb(113, 67, 45);
 }
 
+/* the white squares */
 td {
     background: rgb(225, 194, 158);
 }
