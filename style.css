@@ -48,10 +48,20 @@ th {
 
 /* the black squares */
 .black {
+    position: relative;
     background: rgb(113, 67, 45);
 }
 
 /* the white squares */
 td {
+    position: relative;
     background: rgb(225, 194, 158);
+}
+/* style of all pawns */
+img{
+    position: absolute;
+    left: 15%;
+    bottom: 10%;
+    width: 70px;
+    height: 70px;
 }
