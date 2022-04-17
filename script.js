@@ -7,13 +7,14 @@ div.classList.add('container');
 const table = document.createElement('table');
 div.appendChild(table);
 table.className = 'table';
+
 //arrays for the sides of the board
 const arrCharsU = ['', 'H', '⅁', 'ᖵ', 'Ǝ', 'ᗡ', 'Ͻ', 'ꓭ', '∀', ''];
 const arrNumsU = ['', '⇂', '↊', '↋', 'ߤ', '5', '9', '𝘓', '8', ''];
 const arrChars = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', ''];
 const arrNums = ['', '8', '7', '6', '5', '4', '3', '2', '1', ''];
 
-//creates all of the board
+//creates all of the board includes the Numbers and Chars on the sides
 for (let i = 0; i < 10; i++) {
     const tr = document.createElement('tr');
     table.appendChild(tr);
