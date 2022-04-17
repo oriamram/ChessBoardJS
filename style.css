@@ -57,11 +57,16 @@ td {
     position: relative;
     background: rgb(225, 194, 158);
 }
+
 /* style of all pawns */
-img{
+img {
     position: absolute;
-    left: 15%;
-    bottom: 10%;
+    left: 10%;
+    bottom: 15%;
     width: 70px;
     height: 70px;
+}
+
+.active {
+    background: red;
 }
