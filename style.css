@@ -32,18 +32,20 @@
 .head {
     height: 30px;
     width: 10px;
+
 }
 
 /* numbers from the sides */
 .sides {
     width: 30px;
+
 }
 
 /* numbers and letters style */
-th {
-    background: rgb(121, 89, 77);
+th  {
+    /* background: rgb(121, 89, 77); */
     color: white;
-
+    background: rgb(121, 89, 77);
 }
 
 /* the black squares */
