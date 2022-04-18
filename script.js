@@ -160,17 +160,17 @@ function active(e) {
                     break;
 
                 case 'knight':
-                    knightMove(obj.row,obj.con);
+                    knightMove(obj.row, obj.con);
                     break;
             }
-            if(obj.name==='pawn'&&obj.type==='black'){
+            if (obj.name === 'pawn' && obj.type === 'black') {
                 table.rows[obj.row].cells[obj.con].classList.add('active');
-                if(obj.row>1)table.rows[obj.row-1].cells[obj.con].classList.add('active');
-            } 
-            
-            if(obj.name==='pawn'&&obj.type==='White'){
+                if (obj.row > 1) table.rows[obj.row - 1].cells[obj.con].classList.add('active');
+            }
+
+            if (obj.name === 'pawn' && obj.type === 'White') {
                 table.rows[obj.row].cells[obj.con].classList.add('active');
-                if(obj.row<8)table.rows[obj.row+1].cells[obj.con].classList.add('active');
+                if (obj.row < 8) table.rows[obj.row + 1].cells[obj.con].classList.add('active');
             }
 
 
@@ -220,7 +220,7 @@ function slants(row, con) {
     x = con;
     y = row;
     while (y < 9 && x > 0) {
-       
+
         table.rows[y].cells[x].classList.add('active');
         x--;
         y++;
@@ -228,29 +228,29 @@ function slants(row, con) {
 }
 
 //i dont know what is that but it works..
-function knightMove(row, con){
-    let a=false;
-    let b=false;
-    let c=false;
-    let d=false;
+function knightMove(row, con) {
+    let a = false;
+    let b = false;
+    let c = false;
+    let d = false;
     table.rows[row].cells[con].classList.add('active');
-    if(con<8){table.rows[row].cells[con+1].classList.add('active');}
-    if(con<7){table.rows[row].cells[con+2].classList.add('active');a=true;}
-    if(con>1){table.rows[row].cells[con-1].classList.add('active');}
-    if(con>2){table.rows[row].cells[con-2].classList.add('active');b=true;}
-    if(row<8){table.rows[row+1].cells[con].classList.add('active');}
-    if(row<7){table.rows[row+2].cells[con].classList.add('active');c=true;}
-    if(row>1){table.rows[row-1].cells[con].classList.add('active');}
-    if(row>2){table.rows[row-2].cells[con].classList.add('active');d=true;}
-    if(con<8&&d===true)table.rows[row-2].cells[con+1].classList.add('active');
-    if(con>1&&d===true)table.rows[row-2].cells[con-1].classList.add('active');
-    if(con<8&&c===true)table.rows[row+2].cells[con+1].classList.add('active');
-    if(con>1&&c===true)table.rows[row+2].cells[con-1].classList.add('active');
-    if(row<8&&a===true)table.rows[row+1].cells[con+2].classList.add('active');
-    if(row>1&&a===true)table.rows[row-1].cells[con+2].classList.add('active');
-    if(row<8&&b===true)table.rows[row+1].cells[con-2].classList.add('active');
-    if(row>1&&b===true)table.rows[row-1].cells[con-2].classList.add('active');
+    if (con < 8) { table.rows[row].cells[con + 1].classList.add('active'); }
+    if (con < 7) { table.rows[row].cells[con + 2].classList.add('active'); a = true; }
+    if (con > 1) { table.rows[row].cells[con - 1].classList.add('active'); }
+    if (con > 2) { table.rows[row].cells[con - 2].classList.add('active'); b = true; }
+    if (row < 8) { table.rows[row + 1].cells[con].classList.add('active'); }
+    if (row < 7) { table.rows[row + 2].cells[con].classList.add('active'); c = true; }
+    if (row > 1) { table.rows[row - 1].cells[con].classList.add('active'); }
+    if (row > 2) { table.rows[row - 2].cells[con].classList.add('active'); d = true; }
+    if (con < 8 && d === true) table.rows[row - 2].cells[con + 1].classList.add('active');
+    if (con > 1 && d === true) table.rows[row - 2].cells[con - 1].classList.add('active');
+    if (con < 8 && c === true) table.rows[row + 2].cells[con + 1].classList.add('active');
+    if (con > 1 && c === true) table.rows[row + 2].cells[con - 1].classList.add('active');
+    if (row < 8 && a === true) table.rows[row + 1].cells[con + 2].classList.add('active');
+    if (row > 1 && a === true) table.rows[row - 1].cells[con + 2].classList.add('active');
+    if (row < 8 && b === true) table.rows[row + 1].cells[con - 2].classList.add('active');
+    if (row > 1 && b === true) table.rows[row - 1].cells[con - 2].classList.add('active');
 
-}   
+}
 
 
