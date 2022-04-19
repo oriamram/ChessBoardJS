@@ -8,7 +8,7 @@ let selectedCell;
 //DATA
 let arrRow = [];
 let charData = [];
-class char {
+class Char {
     constructor(type, name, row, col) {
         this.type = type;
         this.name = name;
@@ -24,20 +24,21 @@ class MoveSet {
     //check if the click contains chars
     isChar() {
         if (charData[this.row][this.col] !== undefined) {
-            return charData[this.row][this.col].name;
+            return charData[this.row][this.col];
         }
         else return undefined;
     }
     // check for the vector of the specific char
     absuluteMoves() {
         const char = this.isChar();
-        if (char === 'Bpawn') {
+
+        if (char.name === 'Bpawn') {
             return [[-1, 0]];
         }
-        if (char === 'Wpawn') {
+        if (char.name === 'Wpawn') {
             return [[1, 0]];
         }
-        if (char === 'rook') {
+        if (char.name === 'rook') {
             let arr = [];
             for (let i = 1; i < 8; i++) {
                 arr.push([i, 0]);
@@ -47,7 +48,7 @@ class MoveSet {
             }
             return arr;
         }
-        if (char == 'bishop') {
+        if (char.name == 'bishop') {
             let arr = [];
             for (let i = 1; i < 8; i++) {
                 arr.push([i, i]);
@@ -57,7 +58,7 @@ class MoveSet {
             }
             return arr;
         }
-        if (char === 'knight') {
+        if (char.name === 'knight') {
             let arr = [];
             arr.push([-2, 1]);
             arr.push([-2, -1]);
@@ -69,7 +70,7 @@ class MoveSet {
             arr.push([1, -2]);
             return arr;
         }
-        if (char === 'king') {
+        if (char.name === 'king') {
             let arr = [];
             arr.push([1, 1]);
             arr.push([1, -1]);
@@ -81,7 +82,7 @@ class MoveSet {
             arr.push([-1, 0]);
             return arr;
         }
-        if (char === 'queen') {
+        if (char.name === 'queen') {
             let arr = [];
             for (let i = 1; i < 8; i++) {
                 arr.push([i, i]);
@@ -122,8 +123,6 @@ class MoveSet {
         }
         return possible;
     }
-
-
 }
 
 
@@ -163,7 +162,7 @@ function theRiser(type, name, y, x) {
     const img = document.createElement('img');
     img.src = type + '/' + name + '.png';
     board.rows[y].cells[x].appendChild(img);
-    arrRow.push(new char(type, name, y, x));
+    arrRow.push(new Char(type, name, y, x));
 }
 //choose white pawn to put
 function theChooser(i, j, type) {
@@ -195,9 +194,19 @@ function theChooser(i, j, type) {
     }
 }
 //create the path
+let chosenOne;
 function active(row, col) {
-    const char = new MoveSet(row, col);
-
+    const char = charData[row][col];
+    const charMoves = new MoveSet(row,col);
+    //actually moves the char
+    if(char===undefined&&board.rows[row].cells[col].classList.contains('path')){
+        board.rows[row].cells[col].innerHTML = board.rows[chosenOne.row].cells[chosenOne.col].innerHTML;
+        charData[row][col]= new Char(chosenOne.type,chosenOne.name,row,col);
+        board.rows[chosenOne.row].cells[chosenOne.col].innerHTML = '';
+        charData[chosenOne.row][chosenOne.col]=undefined;
+        chosenOne=undefined;
+    }
+//reset all classes
     for (let row of board.rows) {
         for (let cell of row.cells) {
             cell.classList.remove('active');
@@ -205,8 +214,10 @@ function active(row, col) {
         }
     }
     board.rows[row].cells[col].classList.add('active');
-    if (charData[row][col] !== undefined) {
-        const path = char.trulyMoves()
+//create path and add event listener for moving
+    if (char !== undefined) {
+        chosenOne = char;
+        const path = charMoves.trulyMoves()
         for (let arr of path) {
             board.rows[arr[0]].cells[arr[1]].classList.add('path');
         }
