@@ -5,17 +5,23 @@
 }
 .black{
     background: rgb(63, 63, 63);
-    height: 50px;
+    height: 105px;
+    width: 105px;
     border-radius: 5px;
+    padding: 0;
+    margin: 0;
 }
 .white{
     background: rgb(177, 177, 177);
-    height: 50px;
+    height: 105px;
+    width: 105px;
     border-radius: 5px;
+    padding: 0;
+    margin: 0;
 }
 img{
-    width: 40px;
-    height:40px;
+    width: 50px;
+    height:50px;
     margin-left: 25px;
     padding: 0px;
 }
@@ -23,6 +29,10 @@ img{
     background: rgb(4, 113, 133);
 }
 .path{
-    border-radius: 10px;
+    border-radius: 20px;
     background: rgb(11, 145, 168);
+}
+.kill{
+    background: rgb(156, 0, 0);
+    border-radius: 20px;
 }

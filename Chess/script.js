@@ -1,3 +1,6 @@
+
+
+
 //create board
 const board = document.createElement('table');
 document.body.appendChild(board);
@@ -28,6 +31,15 @@ class MoveSet {
         }
         else return undefined;
     }
+
+    isClear(row, col) {
+        const char = this.isChar();
+        if (row >= 0 && col >= 0 && row < 8 && col < 8 && charData[row][col] !== undefined) {
+            return false;
+        } else return true;
+    }
+
+
     // check for the vector of the specific char
     absuluteMoves() {
         const char = this.isChar();
@@ -42,9 +54,19 @@ class MoveSet {
             let arr = [];
             for (let i = 1; i < 8; i++) {
                 arr.push([i, 0]);
+                if(this.isClear(char.row+i,char.col)===false)  break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([0, i]);
+                if(this.isClear(char.row,char.col+i)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([-i, 0]);
+                if(this.isClear(char.row-i,char.col)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([0, -i]);
+                if(this.isClear(char.row,char.col-i)===false)break;
             }
             return arr;
         }
@@ -52,9 +74,19 @@ class MoveSet {
             let arr = [];
             for (let i = 1; i < 8; i++) {
                 arr.push([i, i]);
+                if(this.isClear(char.row+i,char.col+i)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([i, -i]);
+                if(this.isClear(char.row+i,char.col-i)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([-i, i]);
+                if(this.isClear(char.row-i,char.col+i)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([-i, -i]);
+                if(this.isClear(char.row-i,char.col-i)===false)break;
             }
             return arr;
         }
@@ -86,21 +118,38 @@ class MoveSet {
             let arr = [];
             for (let i = 1; i < 8; i++) {
                 arr.push([i, i]);
+                if(this.isClear(char.row+i,char.col+i)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([i, -i]);
+                if(this.isClear(char.row+i,char.col-i)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([-i, i]);
+                if(this.isClear(char.row-i,char.col+i)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([-i, -i]);
+                if(this.isClear(char.row-i,char.col-i)===false)break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([i, 0]);
+                if(this.isClear(char.row+i,char.col)===false)  break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([0, i]);
+                if(this.isClear(char.row,char.col+i)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([-i, 0]);
+                if(this.isClear(char.row-i,char.col)===false)break;
+            }
+            for (let i = 1; i < 8; i++) {
                 arr.push([0, -i]);
+                if(this.isClear(char.row,char.col-i)===false)break;
             }
             return arr;
         } else return undefined;
-
-
-
     }
     //takes the vector and add it to the char place
     relativeMoves() {
@@ -114,6 +163,7 @@ class MoveSet {
     }
     //return the positions that the specific char can move to
     trulyMoves() {
+
         let possible = [];
         const relative = this.relativeMoves();
         for (let cel of relative) {
@@ -121,10 +171,12 @@ class MoveSet {
                 possible.push(cel);
             }
         }
+
         return possible;
     }
-}
 
+
+}
 
 //create cells inside board+characters and push them into the 2D array Data
 for (let i = 0; i < 8; i++) {
@@ -197,29 +249,41 @@ function theChooser(i, j, type) {
 let chosenOne;
 function active(row, col) {
     const char = charData[row][col];
-    const charMoves = new MoveSet(row,col);
+    const charMoves = new MoveSet(row, col);
     //actually moves the char
-    if(char===undefined&&board.rows[row].cells[col].classList.contains('path')){
+    if (char === undefined && board.rows[row].cells[col].classList.contains('path')) {
         board.rows[row].cells[col].innerHTML = board.rows[chosenOne.row].cells[chosenOne.col].innerHTML;
-        charData[row][col]= new Char(chosenOne.type,chosenOne.name,row,col);
+        charData[row][col] = new Char(chosenOne.type, chosenOne.name, row, col);
         board.rows[chosenOne.row].cells[chosenOne.col].innerHTML = '';
-        charData[chosenOne.row][chosenOne.col]=undefined;
-        chosenOne=undefined;
+        charData[chosenOne.row][chosenOne.col] = undefined;
+        chosenOne = undefined;
     }
-//reset all classes
+    //reset all classes
     for (let row of board.rows) {
         for (let cell of row.cells) {
             cell.classList.remove('active');
             cell.classList.remove('path');
+            cell.classList.remove('kill');
         }
     }
     board.rows[row].cells[col].classList.add('active');
-//create path and add event listener for moving
+    //create path and add event listener for moving
     if (char !== undefined) {
         chosenOne = char;
         const path = charMoves.trulyMoves()
         for (let arr of path) {
-            board.rows[arr[0]].cells[arr[1]].classList.add('path');
+            if (charData[arr[0]][arr[1]] !== undefined && charData[arr[0]][arr[1]].type !== char.type) {
+                board.rows[arr[0]].cells[arr[1]].classList.add('kill');
+            } else if (charData[arr[0]][arr[1]] === undefined) board.rows[arr[0]].cells[arr[1]].classList.add('path');
+
         }
     } else console.log(undefined);
+
+
+
+
+
+
+
+
 }
