@@ -1,0 +1,28 @@
+.board{
+    width: 800px;
+    height: 800px;
+    border-spacing: 1px;
+}
+.black{
+    background: rgb(63, 63, 63);
+    height: 50px;
+    border-radius: 5px;
+}
+.white{
+    background: rgb(177, 177, 177);
+    height: 50px;
+    border-radius: 5px;
+}
+img{
+    width: 40px;
+    height:40px;
+    margin-left: 25px;
+    padding: 0px;
+}
+.active{
+    background: rgb(4, 113, 133);
+}
+.path{
+    border-radius: 10px;
+    background: rgb(11, 145, 168);
+}
