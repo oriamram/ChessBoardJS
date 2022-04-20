@@ -1,6 +1,4 @@
 
-
-
 //create board
 const board = document.createElement('table');
 document.body.appendChild(board);
@@ -8,6 +6,7 @@ board.classList.add('board');
 const BLACK = 'black';
 const WHITE = 'white';
 let selectedCell;
+
 //DATA
 let arrRow = [];
 let charData = [];
@@ -54,19 +53,19 @@ class MoveSet {
             let arr = [];
             for (let i = 1; i < 8; i++) {
                 arr.push([i, 0]);
-                if(this.isClear(char.row+i,char.col)===false)  break;
+                if (this.isClear(char.row + i, char.col) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([0, i]);
-                if(this.isClear(char.row,char.col+i)===false)break;
+                if (this.isClear(char.row, char.col + i) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([-i, 0]);
-                if(this.isClear(char.row-i,char.col)===false)break;
+                if (this.isClear(char.row - i, char.col) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([0, -i]);
-                if(this.isClear(char.row,char.col-i)===false)break;
+                if (this.isClear(char.row, char.col - i) === false) break;
             }
             return arr;
         }
@@ -74,19 +73,19 @@ class MoveSet {
             let arr = [];
             for (let i = 1; i < 8; i++) {
                 arr.push([i, i]);
-                if(this.isClear(char.row+i,char.col+i)===false)break;
+                if (this.isClear(char.row + i, char.col + i) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([i, -i]);
-                if(this.isClear(char.row+i,char.col-i)===false)break;
+                if (this.isClear(char.row + i, char.col - i) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([-i, i]);
-                if(this.isClear(char.row-i,char.col+i)===false)break;
+                if (this.isClear(char.row - i, char.col + i) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([-i, -i]);
-                if(this.isClear(char.row-i,char.col-i)===false)break;
+                if (this.isClear(char.row - i, char.col - i) === false) break;
             }
             return arr;
         }
@@ -118,42 +117,41 @@ class MoveSet {
             let arr = [];
             for (let i = 1; i < 8; i++) {
                 arr.push([i, i]);
-                if(this.isClear(char.row+i,char.col+i)===false)break;
+                if (this.isClear(char.row + i, char.col + i) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([i, -i]);
-                if(this.isClear(char.row+i,char.col-i)===false)break;
+                if (this.isClear(char.row + i, char.col - i) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([-i, i]);
-                if(this.isClear(char.row-i,char.col+i)===false)break;
+                if (this.isClear(char.row - i, char.col + i) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([-i, -i]);
-                if(this.isClear(char.row-i,char.col-i)===false)break;
+                if (this.isClear(char.row - i, char.col - i) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([i, 0]);
-                if(this.isClear(char.row+i,char.col)===false)  break;
+                if (this.isClear(char.row + i, char.col) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([0, i]);
-                if(this.isClear(char.row,char.col+i)===false)break;
+                if (this.isClear(char.row, char.col + i) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([-i, 0]);
-                if(this.isClear(char.row-i,char.col)===false)break;
+                if (this.isClear(char.row - i, char.col) === false) break;
             }
             for (let i = 1; i < 8; i++) {
                 arr.push([0, -i]);
-                if(this.isClear(char.row,char.col-i)===false)break;
+                if (this.isClear(char.row, char.col - i) === false) break;
             }
             return arr;
         } else return undefined;
     }
     //takes the vector and add it to the char place
     relativeMoves() {
-        //add if possible true/false;
         const moves = this.absuluteMoves();
         let relMoves = [];
         for (let move of moves) {
@@ -163,7 +161,6 @@ class MoveSet {
     }
     //return the positions that the specific char can move to
     trulyMoves() {
-
         let possible = [];
         const relative = this.relativeMoves();
         for (let cel of relative) {
@@ -286,4 +283,4 @@ function active(row, col) {
 
 
 
-}
+}console.log(charData);
