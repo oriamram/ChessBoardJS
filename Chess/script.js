@@ -10,6 +10,7 @@ let selectedCell;
 //DATA
 let arrRow = [];
 let charData = [];
+
 class Char {
     constructor(type, name, row, col) {
         this.type = type;
@@ -17,6 +18,7 @@ class Char {
         this.row = row;
         this.col = col;
     }
+
 }
 class MoveSet {
     constructor(row, col) {
@@ -186,25 +188,31 @@ for (let i = 0; i < 8; i++) {
             cell.classList.add('white');
             cell.addEventListener('click', () => active(i, j));
         }
-        if (i === 0) {
-            theChooser(i, j, WHITE);
-        }
-        else if (i === 1) {
-            theRiser(WHITE, 'Wpawn', i, j);
-        }
-        else if (i === 7) {
-            theChooser(i, j, BLACK);
-        }
-        else if (i === 6) {
-            theRiser(BLACK, 'Bpawn', i, j);
-        } else arrRow.push(undefined);
-
+        army(i, j);
     }
     charData.push(arrRow);
     arrRow = [];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
+//orgnize the pawns on the board
+function army(i, j) {
+    if (i === 0) {
+        theChooser(i, j, WHITE);
+    }
+    else if (i === 1) {
+        theRiser(WHITE, 'Wpawn', i, j);
+    }
+    else if (i === 7) {
+        theChooser(i, j, BLACK);
+    }
+    else if (i === 6) {
+        theRiser(BLACK, 'Bpawn', i, j);
+    } else 
+    arrRow.push(undefined);
+console.log('ogo');
+}
+
 //creates a life
 function theRiser(type, name, y, x) {
     const img = document.createElement('img');
@@ -241,9 +249,36 @@ function theChooser(i, j, type) {
             break;
     }
 }
+
+function kingDeath() {
+    let black = false;
+    let white = false;
+    for (let row of charData) {
+        for (let char of row) {
+            if (char !== undefined) {
+                if (char.name === 'king' && char.type === BLACK) {
+                    black = true;
+                }
+                if (char.name === 'king' && char.type === WHITE) {
+                    white = true;
+                }
+            }
+        }
+    }
+    if (black === false) {
+        return BLACK;
+    }
+    else if (white === false) {
+        return WHITE;
+    } else return undefined;
+
+}
+
+
+
 //create the path
 let chosenOne;
-let turn = BLACK;
+let turn = WHITE;
 function active(row, col) {
     const char = charData[row][col];
     const charMoves = new MoveSet(row, col);
@@ -261,9 +296,8 @@ function active(row, col) {
             case WHITE:
                 turn = BLACK;
         }
-        console.log(turn);
     }
-//killing player 
+    //killing player 
     if (char !== undefined && board.rows[row].cells[col].classList.contains('kill')) {
         charData[row][col] = new Char(chosenOne.type, chosenOne.name, row, col);
         charData[chosenOne.row][chosenOne.col] = undefined;
@@ -277,7 +311,6 @@ function active(row, col) {
             case WHITE:
                 turn = BLACK;
         }
-        console.log(char);
     }
 
     //reset all classes
@@ -302,4 +335,21 @@ function active(row, col) {
             } else if (charData[arr[0]][arr[1]] === undefined) board.rows[arr[0]].cells[arr[1]].classList.add('path');
         }
     } else console.log(undefined);
+
+    if (kingDeath() !== undefined) {
+        charData=[];
+        let type = kingDeath();
+        for (let i = 0; i<8;i++) {
+            for (let j = 0;j<8;j++) {
+                if(board.rows[i].cells[j].hasChildNodes()){
+                board.rows[i].cells[j].removeChild(board.rows[i].cells[j].firstElementChild);
+                }
+                army(i,j);
+            }
+            charData.push(arrRow);
+            arrRow = [];
+        }
+        console.log(charData);
+    }
 }
+
