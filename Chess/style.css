@@ -1,9 +1,10 @@
-.board{
+.board {
     width: 800px;
     height: 800px;
     border-spacing: 1px;
 }
-.black{
+
+.black {
     background: rgb(63, 63, 63);
     height: 105px;
     width: 105px;
@@ -11,7 +12,8 @@
     padding: 0;
     margin: 0;
 }
-.white{
+
+.white {
     background: rgb(177, 177, 177);
     height: 105px;
     width: 105px;
@@ -19,20 +21,24 @@
     padding: 0;
     margin: 0;
 }
-img{
+
+img {
     width: 50px;
-    height:50px;
+    height: 50px;
     margin-left: 25px;
     padding: 0px;
 }
-.active{
+
+.active {
     background: rgb(4, 113, 133);
 }
-.path{
+
+.path {
     border-radius: 20px;
     background: rgb(11, 145, 168);
 }
-.kill{
+
+.kill {
     background: rgb(156, 0, 0);
     border-radius: 20px;
 }

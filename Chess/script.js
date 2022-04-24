@@ -168,7 +168,6 @@ class MoveSet {
                 possible.push(cel);
             }
         }
-
         return possible;
     }
 
@@ -244,6 +243,7 @@ function theChooser(i, j, type) {
 }
 //create the path
 let chosenOne;
+let turn = BLACK;
 function active(row, col) {
     const char = charData[row][col];
     const charMoves = new MoveSet(row, col);
@@ -254,7 +254,32 @@ function active(row, col) {
         board.rows[chosenOne.row].cells[chosenOne.col].innerHTML = '';
         charData[chosenOne.row][chosenOne.col] = undefined;
         chosenOne = undefined;
+        switch (turn) {
+            case BLACK:
+                turn = WHITE;
+                break;
+            case WHITE:
+                turn = BLACK;
+        }
+        console.log(turn);
     }
+//killing player 
+    if (char !== undefined && board.rows[row].cells[col].classList.contains('kill')) {
+        charData[row][col] = new Char(chosenOne.type, chosenOne.name, row, col);
+        charData[chosenOne.row][chosenOne.col] = undefined;
+        board.rows[row].cells[col].innerHTML = board.rows[chosenOne.row].cells[chosenOne.col].innerHTML;
+        board.rows[chosenOne.row].cells[chosenOne.col].innerHTML = '';
+
+        switch (turn) {
+            case BLACK:
+                turn = WHITE;
+                break;
+            case WHITE:
+                turn = BLACK;
+        }
+        console.log(char);
+    }
+
     //reset all classes
     for (let row of board.rows) {
         for (let cell of row.cells) {
@@ -264,23 +289,17 @@ function active(row, col) {
         }
     }
     board.rows[row].cells[col].classList.add('active');
-    //create path and add event listener for moving
-    if (char !== undefined) {
+    //create path and add event listener for moving+ resets chosenone
+    if (chosenOne !== undefined && char.type !== chosenOne.type) {
+        chosenOne = undefined;
+    }
+    else if (char !== undefined && char.type === turn) {
         chosenOne = char;
         const path = charMoves.trulyMoves()
         for (let arr of path) {
             if (charData[arr[0]][arr[1]] !== undefined && charData[arr[0]][arr[1]].type !== char.type) {
                 board.rows[arr[0]].cells[arr[1]].classList.add('kill');
             } else if (charData[arr[0]][arr[1]] === undefined) board.rows[arr[0]].cells[arr[1]].classList.add('path');
-
         }
     } else console.log(undefined);
-
-
-
-
-
-
-
-
-}console.log(charData);
+}
