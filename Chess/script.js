@@ -46,10 +46,10 @@ class MoveSet {
         const char = this.isChar();
 
         if (char.name === 'Bpawn') {
-            return [[-1, 0]];
+            return [[-1, 0],[-1,1],[-1,-1]];
         }
         if (char.name === 'Wpawn') {
-            return [[1, 0]];
+            return [[1, 0],[1,1],[1,-1]];
         }
         if (char.name === 'rook') {
             let arr = [];
@@ -330,8 +330,14 @@ function active(row, col) {
         chosenOne = char;
         const path = charMoves.trulyMoves()
         for (let arr of path) {
-            if (charData[arr[0]][arr[1]] !== undefined && charData[arr[0]][arr[1]].type !== char.type) {
+            if(char.name.includes('pawn')&&charData[arr[0]][arr[1]] === undefined&&(arr===path[1]||arr===path[2])){
+                board.rows[arr[0]].cells[arr[1]].classList.add('pawn');
+            } else if(char.name.includes('pawn')&&charData[arr[0]][arr[1]] !== undefined && charData[arr[0]][arr[1]].type !== char.type&&(arr===path[1]||arr===path[2])){
                 board.rows[arr[0]].cells[arr[1]].classList.add('kill');
+            }
+            else if ((!char.name.includes('pawn'))&&charData[arr[0]][arr[1]] !== undefined && charData[arr[0]][arr[1]].type !== char.type) {
+                board.rows[arr[0]].cells[arr[1]].classList.add('kill');
+
             } else if (charData[arr[0]][arr[1]] === undefined) board.rows[arr[0]].cells[arr[1]].classList.add('path');
         }
     } else console.log(undefined);
