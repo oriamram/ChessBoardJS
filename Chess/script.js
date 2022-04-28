@@ -1,4 +1,6 @@
 
+const kingsDeath=document.createElement('div');
+document.body.appendChild(kingsDeath);
 //create board
 const board = document.createElement('table');
 document.body.appendChild(board);
@@ -6,6 +8,7 @@ board.classList.add('board');
 const BLACK = 'black';
 const WHITE = 'white';
 let selectedCell;
+
 
 //DATA
 let arrRow = [];
@@ -20,12 +23,14 @@ class Char {
     }
 
 }
+//all the char moves
 class MoveSet {
     constructor(row, col) {
         this.row = row;
         this.col = col;
     }
-    //check if the click contains chars
+
+    //checks if i ckicked on a char 
     isChar() {
         if (charData[this.row][this.col] !== undefined) {
             return charData[this.row][this.col];
@@ -152,7 +157,7 @@ class MoveSet {
             return arr;
         } else return undefined;
     }
-    //takes the vector and add it to the char place
+    //check for the specific char moveset
     relativeMoves() {
         const moves = this.absuluteMoves();
         let relMoves = [];
@@ -161,7 +166,7 @@ class MoveSet {
         }
         return relMoves;
     }
-    //return the positions that the specific char can move to
+    //this is all the truly possible moves for a char
     trulyMoves() {
         let possible = [];
         const relative = this.relativeMoves();
@@ -176,7 +181,7 @@ class MoveSet {
 
 }
 
-//create cells inside board+characters and push them into the 2D array Data
+//creates the play board
 for (let i = 0; i < 8; i++) {
     const row = board.insertRow()
     for (let j = 0; j < 8; j++) {
@@ -195,6 +200,7 @@ for (let i = 0; i < 8; i++) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
+
 //orgnize the pawns on the board
 function army(i, j) {
     if (i === 0) {
@@ -210,7 +216,6 @@ function army(i, j) {
         theRiser(BLACK, 'Bpawn', i, j);
     } else 
     arrRow.push(undefined);
-console.log('ogo');
 }
 
 //creates a life
@@ -220,7 +225,8 @@ function theRiser(type, name, y, x) {
     board.rows[y].cells[x].appendChild(img);
     arrRow.push(new Char(type, name, y, x));
 }
-//choose white pawn to put
+
+//organize the chars
 function theChooser(i, j, type) {
     switch (j) {
         case 0:
@@ -249,7 +255,7 @@ function theChooser(i, j, type) {
             break;
     }
 }
-
+//check for a kings death
 function kingDeath() {
     let black = false;
     let white = false;
@@ -266,20 +272,22 @@ function kingDeath() {
         }
     }
     if (black === false) {
-        return BLACK;
+        return WHITE;
     }
     else if (white === false) {
-        return WHITE;
+        return BLACK;
     } else return undefined;
 
 }
 
 
 
-//create the path
+
 let chosenOne;
 let turn = WHITE;
+//everything that happens on a click
 function active(row, col) {
+    if(kingsDeath.classList.contains('winner')) kingsDeath.classList.remove('winner');
     const char = charData[row][col];
     const charMoves = new MoveSet(row, col);
     //actually moves the char
@@ -322,6 +330,7 @@ function active(row, col) {
         }
     }
     board.rows[row].cells[col].classList.add('active');
+
     //create path and add event listener for moving+ resets chosenone
     if (chosenOne !== undefined && char.type !== chosenOne.type) {
         chosenOne = undefined;
@@ -340,9 +349,10 @@ function active(row, col) {
 
             } else if (charData[arr[0]][arr[1]] === undefined) board.rows[arr[0]].cells[arr[1]].classList.add('path');
         }
-    } else console.log(undefined);
-
+    }
+    //upon kings death
     if (kingDeath() !== undefined) {
+        
         charData=[];
         let type = kingDeath();
         for (let i = 0; i<8;i++) {
@@ -355,7 +365,9 @@ function active(row, col) {
             charData.push(arrRow);
             arrRow = [];
         }
-        console.log(charData);
+        kingsDeath.innerText = 'Player '+ type + ' Win!' 
+        kingsDeath.classList.add('winner');
+        
     }
 }
 
