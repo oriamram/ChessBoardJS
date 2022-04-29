@@ -1,18 +1,18 @@
-//all the char moves
+//all the char moves and actions
 class MoveSet {
     constructor(row, col) {
         this.row = row;
         this.col = col;
     }
 
-    //checks if i ckicked on a char 
+    //checks which char was clicked
     isChar() {
         if (charData[this.row][this.col] !== undefined) {
             return charData[this.row][this.col];
         }
         else return undefined;
     }
-//func to be able to know if the path is clear
+    //check for clear path
     isClear(row, col) {
         const char = this.isChar();
         if (row >= 0 && col >= 0 && row < 8 && col < 8 && charData[row][col] !== undefined) {
@@ -21,15 +21,15 @@ class MoveSet {
     }
 
 
-    // check for the vector of the specific char
+    //check for the vector of the specific char considering players stuck in the middle of the path
     absuluteMoves() {
         const char = this.isChar();
 
         if (char.name === 'Bpawn') {
-            return [[-1, 0],[-1,1],[-1,-1]];
+            return [[-1, 0], [-1, 1], [-1, -1]];
         }
         if (char.name === 'Wpawn') {
-            return [[1, 0],[1,1],[1,-1]];
+            return [[1, 0], [1, 1], [1, -1]];
         }
         if (char.name === 'rook') {
             let arr = [];
@@ -132,7 +132,7 @@ class MoveSet {
             return arr;
         } else return undefined;
     }
-    //check for the specific char moveset
+    //check for the specific char moveset by(row/col)
     relativeMoves() {
         const moves = this.absuluteMoves();
         let relMoves = [];
@@ -141,7 +141,8 @@ class MoveSet {
         }
         return relMoves;
     }
-    //this is all the truly possible moves for a char
+
+    //this is all the truly possible moves for a char (filter move)
     trulyMoves() {
         let possible = [];
         const relative = this.relativeMoves();
@@ -152,4 +153,48 @@ class MoveSet {
         }
         return possible;
     }
+
+    //actually moves the char
+    nowMove(char, board, turn) {
+        const row = this.row;
+        const col = this.col;
+        if (char === undefined && board.rows[row].cells[col].classList.contains('path')) {
+            board.rows[row].cells[col].innerHTML = board.rows[chosenOne.row].cells[chosenOne.col].innerHTML;
+            charData[row][col] = new Char(chosenOne.type, chosenOne.name, row, col);
+            board.rows[chosenOne.row].cells[chosenOne.col].innerHTML = '';
+            charData[chosenOne.row][chosenOne.col] = undefined;
+            chosenOne = undefined;
+            switch (turn) {
+                case BLACK:
+                    turn = WHITE;
+                    break;
+                case WHITE:
+                    turn = BLACK;
+            }
+        }
+        return turn;
+    }
+
+    //killing player 
+    nowKill(char, board, turn) {
+        const row = this.row;
+        const col = this.col;
+
+        if (char !== undefined && board.rows[row].cells[col].classList.contains('kill')) {
+            charData[row][col] = new Char(chosenOne.type, chosenOne.name, row, col);
+            charData[chosenOne.row][chosenOne.col] = undefined;
+            board.rows[row].cells[col].innerHTML = board.rows[chosenOne.row].cells[chosenOne.col].innerHTML;
+            board.rows[chosenOne.row].cells[chosenOne.col].innerHTML = '';
+
+            switch (turn) {
+                case BLACK:
+                    turn = WHITE;
+                    break;
+                case WHITE:
+                    turn = BLACK;
+            }
+        }
+        return turn;
+    }
+
 }

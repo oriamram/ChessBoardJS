@@ -1,10 +1,10 @@
 class Game {
     constructor() {
-        this.board();
+        this.board = this.board();
     }
-
+    //creates the play board
     board() {
-        //creates the play board
+
         for (let i = 0; i < 8; i++) {
             const row = board.insertRow()
             for (let j = 0; j < 8; j++) {
@@ -104,8 +104,26 @@ class Game {
         } else return undefined;
 
     }
+
+    //what happens whe nthe King is dead
+    uponKingsDeath() {
+        let typeOfKing = this.kingDeath(charData);
+        if (typeOfKing !== undefined) {
+            charData = [];
+            for (let i = 0; i < 8; i++) {
+                for (let j = 0; j < 8; j++) {
+                    if (board.rows[i].cells[j].hasChildNodes()) board.rows[i].cells[j].removeChild(board.rows[i].cells[j].firstElementChild);
+                    this.army(i, j);
+                }
+                charData.push(arrRow);
+                arrRow = [];
+            }
+            kingsDeath.innerText = 'Player ' + typeOfKing + ' Win!'
+            kingsDeath.classList.add('winner');
+        }
+    }
     //check for chess
-    chess(charData,name) {
+    chess(charData, name) {
 
         for (let row = 0; row < 8; row++) {
             for (let cell = 0; cell < 8; cell++) {
@@ -114,7 +132,7 @@ class Game {
                     const moves = new MoveSet(row, cell).trulyMoves();
                     for (let move of moves) {
                         if (charData[move[0]][move[1]] !== undefined && charData[row][cell].name !== name && charData[row][cell].type !== charData[move[0]][move[1]].type && charData[move[0]][move[1]].name === name) {
-                            return [charData[move[0]][move[1]],charData[row][cell]];
+                            return [charData[move[0]][move[1]], charData[row][cell]];
                         }
                     }
                 }
@@ -122,8 +140,52 @@ class Game {
         }
         return undefined;
     }
+//reset board classes
+    dlt(board) {
+        //reset all classes
+        for (let row of board.rows) {
+            for (let cell of row.cells) {
+                cell.classList.remove('active');
+                cell.classList.remove('path');
+                cell.classList.remove('kill');
+            }
+        }
+    }
 
 
+    //spins the game
+    upsideDown(board) {
+        board.classList.add('upsideDown');
+        for (let row of board.rows) {
+            for (let cell of row.cells) {
+                if (cell.firstChild !== null) cell.firstChild.classList.add('upsideDown');
+            }
+        }
+    }
+    //reverse spin the games
+    RupsideDown(board) {
+        board.classList.remove('upsideDown');
+        for (let row of board.rows) {
+            for (let cell of row.cells) {
+                if (cell.firstChild !== null) cell.firstChild.classList.remove('upsideDown');
+            }
+        }
+    }
+    //creates a path for an active char
+    createPaths(char, charData, path, board) {
+        for (let arr of path) {
+            if (char.name.includes('pawn') && charData[arr[0]][arr[1]] === undefined && (arr === path[1] || arr === path[2])) {
+                board.rows[arr[0]].cells[arr[1]].classList.add('pawn');
+            } else if (char.name.includes('pawn') && charData[arr[0]][arr[1]] !== undefined && charData[arr[0]][arr[1]].type !== char.type && (arr === path[1] || arr === path[2])) {
+                board.rows[arr[0]].cells[arr[1]].classList.add('kill');
+            }
+            else if ((!char.name.includes('pawn')) && charData[arr[0]][arr[1]] !== undefined && charData[arr[0]][arr[1]].type !== char.type) {
+                board.rows[arr[0]].cells[arr[1]].classList.add('kill');
+
+            } else if (charData[arr[0]][arr[1]] === undefined) board.rows[arr[0]].cells[arr[1]].classList.add('path');
+        }
+    }
 
 }
+
 
