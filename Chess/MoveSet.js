@@ -26,10 +26,16 @@ class MoveSet {
         const char = this.isChar();
 
         if (char.name === 'Bpawn') {
-            return [[-1, 0], [-1, 1], [-1, -1]];
+            let arr = [[-1, 0], [-1, 1], [-1, -1]];
+            if (this.isClear(char.row - 1, char.col))
+                arr.push([-2, 0]);
+            return arr;
         }
         if (char.name === 'Wpawn') {
-            return [[1, 0], [1, 1], [1, -1]];
+            let arr = [[1, 0], [1, 1], [1, -1]]
+            if (this.isClear(char.row + 1, char.col))
+                arr.push([2, 0]);
+            return arr;
         }
         if (char.name === 'rook') {
             let arr = [];
@@ -164,6 +170,7 @@ class MoveSet {
             board.rows[chosenOne.row].cells[chosenOne.col].innerHTML = '';
             charData[chosenOne.row][chosenOne.col] = undefined;
             chosenOne = undefined;
+            game.check(charData, turn);
             switch (turn) {
                 case BLACK:
                     turn = WHITE;
@@ -172,6 +179,7 @@ class MoveSet {
                     turn = BLACK;
             }
         }
+
         return turn;
     }
 
@@ -185,7 +193,7 @@ class MoveSet {
             charData[chosenOne.row][chosenOne.col] = undefined;
             board.rows[row].cells[col].innerHTML = board.rows[chosenOne.row].cells[chosenOne.col].innerHTML;
             board.rows[chosenOne.row].cells[chosenOne.col].innerHTML = '';
-
+            game.check(charData, turn);
             switch (turn) {
                 case BLACK:
                     turn = WHITE;
@@ -196,5 +204,4 @@ class MoveSet {
         }
         return turn;
     }
-
 }

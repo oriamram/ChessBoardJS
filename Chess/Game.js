@@ -41,11 +41,11 @@ class Game {
     }
 
     //creates a life
-    theRiser(type, name, y, x) {
+    theRiser(type, name, row, col) {
         const img = document.createElement('img');
         img.src = type + '/' + name + '.png';
-        board.rows[y].cells[x].appendChild(img);
-        arrRow.push(new Char(type, name, y, x));
+        board.rows[row].cells[col].appendChild(img);
+        arrRow.push(new Char(type, name, row, col));
     }
 
     //organize the chars
@@ -102,6 +102,28 @@ class Game {
         else if (white === false) {
             return BLACK;
         } else return undefined;
+    }
+
+    check(charData,turn) {
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+
+                if (charData[row][col] !== undefined) {
+                    let path = new MoveSet(row, col).trulyMoves();
+                    for (let step of path) {
+                        if (charData[step[0]][step[1]]!==undefined&&charData[step[0]][step[1]].type !== charData[row][col].type && charData[step[0]][step[1]].name === 'king') {
+                            if(charData[step[0]][step[1]].type!==turn){
+                            setTimeout(()=>alert('The '+charData[step[0]][step[1]].type +' King is in CHECK!'),700);
+                            return charData[step[0]][step[1]];
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+
 
     }
 
@@ -122,27 +144,10 @@ class Game {
             kingsDeath.classList.add('winner');
         }
     }
-    //check for chess
-    chess(charData, name) {
 
-        for (let row = 0; row < 8; row++) {
-            for (let cell = 0; cell < 8; cell++) {
-
-                if (charData[row][cell] !== undefined) {
-                    const moves = new MoveSet(row, cell).trulyMoves();
-                    for (let move of moves) {
-                        if (charData[move[0]][move[1]] !== undefined && charData[row][cell].name !== name && charData[row][cell].type !== charData[move[0]][move[1]].type && charData[move[0]][move[1]].name === name) {
-                            return [charData[move[0]][move[1]], charData[row][cell]];
-                        }
-                    }
-                }
-            }
-        }
-        return undefined;
-    }
-//reset board classes
+    
+    //reset board classes
     dlt(board) {
-        //reset all classes
         for (let row of board.rows) {
             for (let cell of row.cells) {
                 cell.classList.remove('active');
@@ -162,6 +167,9 @@ class Game {
             }
         }
     }
+
+
+    
     //reverse spin the games
     RupsideDown(board) {
         board.classList.remove('upsideDown');
@@ -173,16 +181,19 @@ class Game {
     }
     //creates a path for an active char
     createPaths(char, charData, path, board) {
-        for (let arr of path) {
-            if (char.name.includes('pawn') && charData[arr[0]][arr[1]] === undefined && (arr === path[1] || arr === path[2])) {
-                board.rows[arr[0]].cells[arr[1]].classList.add('pawn');
-            } else if (char.name.includes('pawn') && charData[arr[0]][arr[1]] !== undefined && charData[arr[0]][arr[1]].type !== char.type && (arr === path[1] || arr === path[2])) {
-                board.rows[arr[0]].cells[arr[1]].classList.add('kill');
+        for (let step of path) {
+            if (char.name.includes('pawn') && charData[step[0]][step[1]] === undefined && step[1] !==char.col ) {
+                board.rows[step[0]].cells[step[1]].classList.add('pawn');
+            } else if (char.name.includes('pawn') && charData[step[0]][step[1]] !== undefined && charData[step[0]][step[1]].type !== char.type && step[1]!==char.col) {
+                board.rows[step[0]].cells[step[1]].classList.add('kill');
             }
-            else if ((!char.name.includes('pawn')) && charData[arr[0]][arr[1]] !== undefined && charData[arr[0]][arr[1]].type !== char.type) {
-                board.rows[arr[0]].cells[arr[1]].classList.add('kill');
+            else if ((!char.name.includes('pawn')) && charData[step[0]][step[1]] !== undefined && charData[step[0]][step[1]].type !== char.type) {
+                board.rows[step[0]].cells[step[1]].classList.add('kill');
 
-            } else if (charData[arr[0]][arr[1]] === undefined) board.rows[arr[0]].cells[arr[1]].classList.add('path');
+            }
+            else if (char.name.includes('pawn') && step === path[path.length-1] && (char.row !== 1 && char.row !== 6)) {
+                board.rows[step[0]].cells[step[1]].classList.add('pawn');
+            } else if (charData[step[0]][step[1]] === undefined) board.rows[step[0]].cells[step[1]].classList.add('path');
         }
     }
 

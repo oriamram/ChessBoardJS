@@ -5,12 +5,15 @@ document.body.appendChild(kingsDeath);
 const board = document.createElement('table');
 document.body.appendChild(board);
 board.classList.add('board');
-
-
-
+turns = document.createElement('div');
+turns.classList.add('turn');
+document.body.appendChild(turns);
 const BLACK = 'black';
 const WHITE = 'white';
-let selectedCell;
+let turn = WHITE;
+turns.innerText = 'Player ' + turn;
+let blackScore = 0;
+let whiteScore = 0;
 
 //DATA
 let arrRow = [];
@@ -25,26 +28,24 @@ class Char {
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////////
 
 const game = new Game();
 game.upsideDown(board);
 
 
 let chosenOne;
-let turn = WHITE;
 
+let isChecked;
 //everything that happens on a click
 function active(row, col) {
     let char = undefined;
     char = charData[row][col];
     const charMoves = new MoveSet(row, col)
     kingsDeath.classList.remove('winner');
-   
-    
+
     turn = charMoves.nowMove(char, board, turn);
     turn = charMoves.nowKill(char, board, turn);
-    
+
     game.dlt(board);
 
     //creating the different paths
@@ -57,6 +58,7 @@ function active(row, col) {
         const path = charMoves.trulyMoves()
         game.createPaths(char, charData, path, board);
     }
+    
 
     game.uponKingsDeath();
 
@@ -68,5 +70,13 @@ function active(row, col) {
         setTimeout(game.upsideDown(board), 1100);
 
     }
+
+    turns.innerText = 'Player ' + turn;
+    if(turn===BLACK)
+    {turns.classList.add('turnBlack');}
+    else turns.classList.remove('turnBlack');
+
 }
 
+//score
+//check upgrade
