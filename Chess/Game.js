@@ -1,6 +1,8 @@
 class Game {
     constructor() {
         this.board = this.board();
+        this.whiteScore = 0;
+        this.blackScore = 0;
     }
     //creates the play board
     board() {
@@ -78,8 +80,6 @@ class Game {
         }
     }
 
-
-
     //check for a kings death
     kingDeath(charData) {
         let black = false;
@@ -104,17 +104,18 @@ class Game {
         } else return undefined;
     }
 
-    check(charData,turn) {
+    //alert for check
+    check(charData, turn) {
         for (let row = 0; row < 8; row++) {
             for (let col = 0; col < 8; col++) {
 
                 if (charData[row][col] !== undefined) {
                     let path = new MoveSet(row, col).trulyMoves();
                     for (let step of path) {
-                        if (charData[step[0]][step[1]]!==undefined&&charData[step[0]][step[1]].type !== charData[row][col].type && charData[step[0]][step[1]].name === 'king') {
-                            if(charData[step[0]][step[1]].type!==turn){
-                            setTimeout(()=>alert('The '+charData[step[0]][step[1]].type +' King is in CHECK!'),700);
-                            return charData[step[0]][step[1]];
+                        if (charData[step[0]][step[1]] !== undefined && charData[step[0]][step[1]].type !== charData[row][col].type && charData[step[0]][step[1]].name === 'king') {
+                            if (charData[step[0]][step[1]].type !== turn) {
+                                setTimeout(() => alert('The ' + charData[step[0]][step[1]].type + ' King is in CHECK!'), 700);
+                                return charData[step[0]][step[1]];
                             }
                         }
 
@@ -142,10 +143,12 @@ class Game {
             }
             kingsDeath.innerText = 'Player ' + typeOfKing + ' Win!'
             kingsDeath.classList.add('winner');
+            this.score(typeOfKing);
+            console.log('white_ '+this.whiteScore+' black_ '+this.blackScore);
         }
     }
 
-    
+
     //reset board classes
     dlt(board) {
         for (let row of board.rows) {
@@ -169,7 +172,7 @@ class Game {
     }
 
 
-    
+
     //reverse spin the games
     RupsideDown(board) {
         board.classList.remove('upsideDown');
@@ -182,19 +185,28 @@ class Game {
     //creates a path for an active char
     createPaths(char, charData, path, board) {
         for (let step of path) {
-            if (char.name.includes('pawn') && charData[step[0]][step[1]] === undefined && step[1] !==char.col ) {
+            if (char.name.includes('pawn') && charData[step[0]][step[1]] === undefined && step[1] !== char.col) {
                 board.rows[step[0]].cells[step[1]].classList.add('pawn');
-            } else if (char.name.includes('pawn') && charData[step[0]][step[1]] !== undefined && charData[step[0]][step[1]].type !== char.type && step[1]!==char.col) {
+            } else if (char.name.includes('pawn') && charData[step[0]][step[1]] !== undefined && charData[step[0]][step[1]].type !== char.type && step[1] !== char.col) {
                 board.rows[step[0]].cells[step[1]].classList.add('kill');
             }
             else if ((!char.name.includes('pawn')) && charData[step[0]][step[1]] !== undefined && charData[step[0]][step[1]].type !== char.type) {
                 board.rows[step[0]].cells[step[1]].classList.add('kill');
 
             }
-            else if (char.name.includes('pawn') && step === path[path.length-1] && (char.row !== 1 && char.row !== 6)) {
+            else if (char.name.includes('pawn') && step === path[path.length - 1] && (char.row !== 1 && char.row !== 6)) {
                 board.rows[step[0]].cells[step[1]].classList.add('pawn');
             } else if (charData[step[0]][step[1]] === undefined) board.rows[step[0]].cells[step[1]].classList.add('path');
         }
+    }
+
+    score(typeOfKing) {
+            if (typeOfKing === BLACK)
+                this.blackScore++;
+            if (typeOfKing === WHITE)
+                this.whiteScore++;
+        scoreBoard.innerText = this.blackScore + ' : ' + this.whiteScore;
+
     }
 
 }

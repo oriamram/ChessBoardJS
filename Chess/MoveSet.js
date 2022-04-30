@@ -20,8 +20,7 @@ class MoveSet {
         } else return true;
     }
 
-
-    //check for the vector of the specific char considering players stuck in the middle of the path
+    //check for the vector of the specific char
     absuluteMoves() {
         const char = this.isChar();
 
@@ -138,6 +137,7 @@ class MoveSet {
             return arr;
         } else return undefined;
     }
+
     //check for the specific char moveset by(row/col)
     relativeMoves() {
         const moves = this.absuluteMoves();

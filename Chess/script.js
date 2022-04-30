@@ -12,8 +12,11 @@ const BLACK = 'black';
 const WHITE = 'white';
 let turn = WHITE;
 turns.innerText = 'Player ' + turn;
-let blackScore = 0;
-let whiteScore = 0;
+const scoreBoard = document.createElement('div');
+scoreBoard.classList.add('scoreBoard');
+document.body.appendChild(scoreBoard);
+scoreBoard.innerText = '0 : 0';
+
 
 //DATA
 let arrRow = [];
@@ -28,14 +31,12 @@ class Char {
     }
 }
 
-
 const game = new Game();
 game.upsideDown(board);
 
-
 let chosenOne;
-
 let isChecked;
+
 //everything that happens on a click
 function active(row, col) {
     let char = undefined;
@@ -77,6 +78,5 @@ function active(row, col) {
     else turns.classList.remove('turnBlack');
 
 }
-
-//score
+//moves func fix
 //check upgrade
