@@ -59,7 +59,7 @@ function active(row, col) {
         const path = charMoves.trulyMoves()
         game.createPaths(char, charData, path, board);
     }
-    
+
 
     game.uponKingsDeath();
 
@@ -73,8 +73,7 @@ function active(row, col) {
     }
 
     turns.innerText = 'Player ' + turn;
-    if(turn===BLACK)
-    {turns.classList.add('turnBlack');}
+    if (turn === BLACK) { turns.classList.add('turnBlack'); }
     else turns.classList.remove('turnBlack');
 
 }

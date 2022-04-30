@@ -144,7 +144,7 @@ class Game {
             kingsDeath.innerText = 'Player ' + typeOfKing + ' Win!'
             kingsDeath.classList.add('winner');
             this.score(typeOfKing);
-            console.log('white_ '+this.whiteScore+' black_ '+this.blackScore);
+            console.log('white_ ' + this.whiteScore + ' black_ ' + this.blackScore);
         }
     }
 
@@ -201,10 +201,10 @@ class Game {
     }
 
     score(typeOfKing) {
-            if (typeOfKing === BLACK)
-                this.blackScore++;
-            if (typeOfKing === WHITE)
-                this.whiteScore++;
+        if (typeOfKing === BLACK)
+            this.blackScore++;
+        if (typeOfKing === WHITE)
+            this.whiteScore++;
         scoreBoard.innerText = this.blackScore + ' : ' + this.whiteScore;
 
     }

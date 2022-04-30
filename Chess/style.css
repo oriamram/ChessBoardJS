@@ -2,7 +2,7 @@
     position: fixed;
     width: 800px;
     height: 800px;
-    border-spacing: 0px;
+    border-spacing: 0cm;
     border: 4px solid rgba(63, 63, 63, 0.555);
     border-radius: 10px;
     transition: ease-in-out transform 1s;
@@ -129,7 +129,7 @@ img {
     text-shadow: white 1px 1px 4px;
 }
 
-.scoreBoard{
+.scoreBoard {
     position: absolute;
     display: flex;
     background: rgba(94, 0, 0, 0.774);
