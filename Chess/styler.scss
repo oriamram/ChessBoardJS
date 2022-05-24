@@ -1,0 +1,106 @@
+@mixin color($color1, $color2) {
+    background: $color1;
+    height: 105px;
+    width: 105px;
+    border-radius: 5px;
+    padding: 0;
+    margin: 0;
+    &:hover {
+        box-shadow: 5px 5px 50px $color2 inset;
+    }
+}
+@mixin turns($bg, $bs, $ts, $fc) {
+    background: $bg;
+    color: $fc;
+    position: absolute;
+    padding: 0;
+    display: flex;
+    left: 70px;
+    top: 25vh;
+    z-index: 2;
+    width: 350px;
+    height: 250px;
+    border-radius: 20px;
+    font-size: 100px;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    box-shadow: $bs 3px 5px 20px;
+    text-shadow: $ts 1px 1px 4px;
+}
+@mixin paths($color, $dur) {
+    border-radius: 20px;
+    background: $color;
+    transition-duration: $dur;
+}
+@mixin boards($bg, $height, $width, $br, $top, $fs, $family) {
+    position: absolute;
+    display: flex;
+    background: $bg;
+    border-radius: $br;
+    width: $width;
+    height: $height;
+    font-size: $fs;
+    font-family: $family;
+    top: $top;
+    align-items: center;
+    justify-content: center;
+}
+.board {
+    position: fixed;
+    width: 800px;
+    height: 800px;
+    border-spacing: 0cm;
+    border: 4px solid rgba(63, 63, 63, 0.555);
+    border-radius: 10px;
+    transition: ease-in-out transform 1s;
+}
+.upsideDown {
+    transform: rotate(180deg);
+}
+body {
+    padding-top: 40px;
+    display: flex;
+    margin: 0;
+    position: relative;
+    justify-content: center;
+    background: rgba(188, 218, 224, 0.884);
+}
+.black {
+    @include color(rgb(63, 63, 63), rgba(255, 255, 255, 0.342));
+}
+
+.white {
+    @include color(rgb(177, 177, 177), rgb(255, 255, 255));
+}
+img {
+    width: 50px;
+    height: 50px;
+    margin-left: 25px;
+    padding: 0px;
+    transition: transform .5s;
+}
+.active {
+    background: rgb(4, 113, 133);
+}
+.path {
+    @include paths(rgb(11, 145, 168), 0.5s);
+}
+.kill {
+    @include paths(rgb(156, 0, 0), 1s);
+}
+.pawn {}
+.turn {
+    @include turns(white, black, black, black);
+}
+.turnBlack {
+    @include turns(black, white, white, white);
+}
+.winner {
+    @include boards(rgb(12, 146, 0), 200px, 350px, 30px, 20vh, 30px, (Verdana, Tahoma, sans-serif));
+    z-index: 1;
+    font-weight: 600;
+}
+.scoreBoard {
+    @include boards(rgba(94, 0, 0, 0.774), 250px, 350px, 20px, 25vh, 110px, ('Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif));
+    right: 70px;
+}
