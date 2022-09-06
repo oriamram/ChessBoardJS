@@ -1,6 +1,7 @@
 
 
 # ChessBoardJS
-### first project of the course
-chessBoard with only JS
+### First project of Cyber4s
+
+ChessBoard with only JS
 Link : https://oriamram.github.io/ChessBoardJS/Chess/
